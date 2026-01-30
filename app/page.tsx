@@ -6,9 +6,7 @@ import { useChat } from "@ai-sdk/react";
 export default function Home() {
   const [input, setInput] = useState("");
 
-  const { messages, sendMessage } = useChat({
-    api: "/api/chat",
-  });
+  const { messages, sendMessage } = useChat();
 
   return (
     <main style={{ padding: 24, maxWidth: 720, margin: "0 auto" }}>
