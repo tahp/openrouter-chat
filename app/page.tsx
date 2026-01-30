@@ -6,7 +6,7 @@ import { useChat } from "@ai-sdk/react";
 export default function Home() {
   const [input, setInput] = useState("");
 
-  const { messages, append, isLoading } = useChat({
+  const { messages, sendMessage, isLoading } = useChat({
     api: "/api/chat",
   });
 
@@ -26,7 +26,8 @@ export default function Home() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          append({ role: "user", content: input });
+          if (!input.trim()) return;
+          sendMessage(input);
           setInput("");
         }}
       >
