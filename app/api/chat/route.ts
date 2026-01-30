@@ -8,16 +8,24 @@ const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!,
 });
 
-export async function POST(req: Request) {
-  const body = await req.json();
+type UIPart =
+  | { type: "text"; text: string }
+  | { type: string; [key: string]: unknown };
 
-  // Convert UIMessage → CoreMessage
-  const messages: CoreMessage[] = body.messages.map((m: any) => ({
+type UIMessage = {
+  role: "system" | "user" | "assistant";
+  parts: UIPart[];
+};
+
+export async function POST(req: Request) {
+  const body: { messages: UIMessage[] } = await req.json();
+
+  const messages: CoreMessage[] = body.messages.map((m) => ({
     role: m.role,
     content: m.parts
-      ?.filter((p: any) => p.type === "text")
-      .map((p: any) => p.text)
-      .join("") ?? "",
+      .filter((p): p is { type: "text"; text: string } => p.type === "text")
+      .map((p) => p.text)
+      .join(""),
   }));
 
   const result = await streamText({
