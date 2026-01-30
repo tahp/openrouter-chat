@@ -6,7 +6,7 @@ import { useChat } from "@ai-sdk/react";
 export default function Home() {
   const [input, setInput] = useState("");
 
-  const { messages, sendMessage, isLoading } = useChat({
+  const { messages, sendMessage } = useChat({
     api: "/api/chat",
   });
 
@@ -20,7 +20,6 @@ export default function Home() {
             <strong>{m.role}:</strong> {m.content}
           </div>
         ))}
-        {isLoading && <div>Thinking…</div>}
       </div>
 
       <form
