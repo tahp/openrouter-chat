@@ -29,7 +29,10 @@ export default function Home() {
         onSubmit={(e) => {
           e.preventDefault();
           if (!input.trim()) return;
-          sendMessage(input);
+          sendMessage({
+  role: "user",
+  parts: [{ type: "text", text: input }],
+});
           setInput("");
         }}
       >
