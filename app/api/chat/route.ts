@@ -12,6 +12,6 @@ export async function POST(req: Request) {
     model: openrouter("openai/gpt-4o-mini"),
     messages,
   });
-
-  return result.toDataStreamResponse();
+return result.toTextStreamResponse();
+ 
 }
