@@ -1,16 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
+
 export default function Home() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({ api: "/api/chat" });
+  const [input, setInput] = useState("");
+
+  const { messages, handleSubmit, isLoading } = useChat({
+    api: "/api/chat",
+  });
 
   return (
     <main style={{ padding: 24, maxWidth: 720, margin: "0 auto" }}>
       <h1>OpenRouter Chat</h1>
 
       <div style={{ margin: "16px 0", minHeight: 300 }}>
-        {messages.map(m => (
+        {messages.map((m) => (
           <div key={m.id} style={{ marginBottom: 12 }}>
             <strong>{m.role}:</strong> {m.content}
           </div>
@@ -18,10 +23,16 @@ export default function Home() {
         {isLoading && <div>Thinking…</div>}
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit({ content: input });
+          setInput("");
+        }}
+      >
         <input
           value={input}
-          onChange={handleInputChange}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Say something"
           style={{ width: "100%", padding: 8 }}
         />
