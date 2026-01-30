@@ -16,7 +16,7 @@ export default function Home() {
         {messages.map((m) => (
           <div key={m.id} style={{ marginBottom: 12 }}>
            <strong>{m.role}:</strong>{" "}
-{m.content
+{m.parts
   .filter((p) => p.type === "text")
   .map((p, i) => (
     <span key={i}>{p.text}</span>
