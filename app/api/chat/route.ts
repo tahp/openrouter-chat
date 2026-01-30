@@ -1,5 +1,7 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { streamText } from "ai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+
+export const runtime = "edge";
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!,
@@ -8,10 +10,10 @@ const openrouter = createOpenRouter({
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
-  const result = streamText({
+  const result = await streamText({
     model: openrouter("openai/gpt-4o-mini"),
     messages,
   });
-return result.toTextStreamResponse();
- 
+
+  return result.toTextStreamResponse();
 }
